@@ -8,19 +8,23 @@ class BotList extends React.Component{
         
     }
     bots = this.props.bots;
-    onClickBot(bot){
-        this.props.onChangeBot(bot);
+    onClickBot(id){
+        this.props.onChangeBot(id);
     };
     onClickStatus = (id) => {
         this.props.onChangeStatus(id);
+    };
+    onDelete = (id) => {
+        this.props.onDeleteBot(id);
     }
+
     
     render(){
-        if (this.bots.length > 0)
+        if (this.props.bots.length > 0)
             return(
                 <div className="bot-list">
                     {this.bots.map((el) => (<div key={el.id}> 
-                        <Bot onClickStatus={this.onClickStatus} onClickBot={this.onClickBot} bot={el} number={this.bots.indexOf(el) + 1}/>
+                        <Bot onDelete={this.onDelete} onClickStatus={this.onClickStatus} onClickBot={this.onClickBot} bot={el} number={this.bots.indexOf(el) + 1}/>
                     </div>))}
                 </div>
             );

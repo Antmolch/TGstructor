@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import './style.css'
 import { useDetectOutsideClick } from "./UseDetectOutsideClick";
 
@@ -8,11 +8,11 @@ export function Bot(props){
     const [statusBot, setStatusBot] = useState(bot.status);
     const number = props.number;
     const [isActive, setIsActive] = useState(false);
-    
+
 
     return(
         <div className="bot">
-            <a href="#" onClick={() => props.onClickBot(bot)}>
+            <a href="#" onClick={() => props.onClickBot(bot.id)}>
                 <div>
                     <p className="text-4">{bot.name}</p>
                     <p className="text-5">{bot.unique_name}</p>
@@ -32,7 +32,7 @@ export function Bot(props){
             {isActive && <nav className={`menu ${isActive ? "active" : "inactive"}`}>
                 <ul className="text-5">
                     <li>
-                    <a href="#" onClick={() => props.onClickBot(bot)}>Изменить</a>
+                    <a href="#" onClick={() => props.onClickBot(bot.id)}>Изменить</a>
                     </li>
                     <li>
                     <a href="#" onClick={() => {
@@ -41,7 +41,7 @@ export function Bot(props){
                     }}>{statusBot === false ? "Подключить" : "Остановить"}</a>
                     </li>
                     <li>
-                    <a href="#">Удалить</a>
+                    <a href="#" onClick={() => props.onDelete(bot.id)}>Удалить</a>
                     </li>
                 </ul>
                 </nav>}
