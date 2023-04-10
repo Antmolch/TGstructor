@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './normalize.css'
+import './components/css/style.css'
 import FunctionsBlock from './components/FunctionsBlock'
 import Constructor from './components/Constructor'
 import BotList from './components/BotList'
@@ -197,7 +198,6 @@ class App extends React.Component{
   }
 
   render(){
-    console.log("render")
     if (this.state.status === "constructor")
       return(
         <div className="bot-constructor">

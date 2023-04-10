@@ -1,5 +1,7 @@
 import React from 'react';
 import Bot from './Bot'
+import './css/bot-list.css'
+import plusIcon from './img/plus-svg.svg'
 
 class BotList extends React.Component{
     constructor(props){
@@ -23,7 +25,17 @@ class BotList extends React.Component{
         if (this.props.bots.length > 0)
             return(
                 <div className="bot-list">
-                    {this.bots.map((el) => (<div key={el.id}> 
+                    <div className='header-bot-list'>
+                        <p className='text-2'>Ваши чат-боты</p>
+                        <div className='add-bot-field'>
+                            <input className='text-5' type='text' placeholder='Введите название чат-бота'/>
+                            <button>
+                                <img src={plusIcon}/>
+                                <p className="text-5">Создать бота</p>
+                            </button>
+                        </div>
+                    </div>
+                    {this.bots.map((el) => (<div key={el.id} style={{margin: "0px", width: "100%"}}> 
                         <Bot onDelete={this.onDelete} onClickStatus={this.onClickStatus} onClickBot={this.onClickBot} bot={el} number={this.bots.indexOf(el) + 1}/>
                     </div>))}
                 </div>
@@ -31,6 +43,9 @@ class BotList extends React.Component{
         else    
             return(
                 <div className="bot-list">
+                    <div className='header-bot-list'>
+                        <p className='text-2'>Ваши чат-боты</p>
+                    </div>
                     <h2>Список ботов пуст</h2>
                     <button className="">Создать</button>
                 </div>
