@@ -18,9 +18,11 @@ class FunctionsBlock extends React.Component{
         console.log(this.state.activeButton)
         return(
             <div className="function-block">
-                <button onClick={() => this.onClickButton("message")} className={`func-button ${this.state.activeButton === "message" ? "active" : "inactive"}`}><p className="text-4">Cообщение</p></button>
-                <button onClick={() => this.onClickButton("mail")} className={`func-button ${this.state.activeButton === "mail" ? "active" : "inactive"}`}><p className="text-4">Рассылки</p></button>
-                <button onClick={() => this.onClickButton("chat")} className={`func-button ${this.state.activeButton === "chat" ? "active" : "inactive"}`}><p className="text-4">Подключение человека</p></button>
+                <div>
+                    <button onClick={() => this.onClickButton("message")} className={`func-button ${this.state.activeButton === "message" ? "active" : "inactive"}`}><p className="text-4">Cообщение</p></button>
+                    <button onClick={() => this.onClickButton("mail")} className={`func-button ${this.state.activeButton === "mail" ? "active" : "inactive"}`}><p className="text-4">Рассылки</p></button>
+                    <button onClick={() => this.onClickButton("chat")} className={`func-button ${this.state.activeButton === "chat" ? "active" : "inactive"}`}><p className="text-4">Подключение человека</p></button>
+                </div>
             </div>
         )
     }

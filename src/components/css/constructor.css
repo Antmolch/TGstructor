@@ -1,6 +1,6 @@
 
 .func-button{
-    width: 130px;
+    width: 90%;
     height:  auto;
     padding: 2px 5px;
     margin-bottom: 15px;
@@ -36,21 +36,26 @@
     display: flex;
     width: 100%;
     height: 100%;
+    margin: 0px;
   }
   
   .function-block{
     padding-left: 25px;
-    padding-top: 30px;
     background-color: #ffffff;
     height: 100%;
     margin: 0px;
     width: 15%;
   }
+
+  .function-block div{
+    padding-top: 25px;
+    width: 15%;
+    position: fixed;
+  }
   
   .constructor-block{
     height: 100%;
-    width: 80%;
-    padding: 10px;
+    width: 85%;
     border-radius: 50px 0px 0px 0px;
     background-color: #efefef;
     overflow-y: scroll;

@@ -1,5 +1,6 @@
 import React from 'react';
 import './css/constructor.css'
+import Message from './Constructor/Message'
 
 class Constructor extends React.Component{
 constructor(props){
@@ -14,10 +15,13 @@ constructor(props){
         return(
             <div className="constructor-block">
                 <div className='start-block'></div>
-
-                <div className=""></div>
+                {this.state.bot.commands.length === 0 ? 
+                <Message />
+                :
+                <Message />
+                }
             </div>
-        )
+        );
     }
 }
 

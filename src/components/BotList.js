@@ -30,7 +30,7 @@ class BotList extends React.Component{
                         <div className='add-bot-field'>
                             <input className='text-5' type='text' placeholder='Введите название чат-бота'/>
                             <button>
-                                <img src={plusIcon}/>
+                                <img src={plusIcon} alt='Действия'/>
                                 <p className="text-5">Создать бота</p>
                             </button>
                         </div>
@@ -45,9 +45,15 @@ class BotList extends React.Component{
                 <div className="bot-list">
                     <div className='header-bot-list'>
                         <p className='text-2'>Ваши чат-боты</p>
+                        <div className='add-bot-field'>
+                            <input className='text-5' type='text' placeholder='Введите название чат-бота'/>
+                            <button>
+                                <img src={plusIcon} alt='Действия'/>
+                                <p className="text-5">Создать бота</p>
+                            </button>
+                        </div>
                     </div>
-                    <h2>Список ботов пуст</h2>
-                    <button className="">Создать</button>
+                    <p className='text-2' style={{width: "85%", textAlign: "center"}}>Список ботов пуст</p>
                 </div>
             );
     }
