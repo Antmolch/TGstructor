@@ -33,7 +33,7 @@ class App extends React.Component{
                 command_call: "Привет"
               }
             ],
-            link: [{follow_command_id: 1}, {follow_command_id: 2}]
+            link: [1, 8]
           },
           {
             id: 1,
@@ -48,8 +48,8 @@ class App extends React.Component{
                 command_call: "Что нового?"
               }
             ],
-            link: [null]
-          },
+            link: [6, 7]
+          },/*
           {
             id: 2,
             type: "communication",
@@ -64,7 +64,7 @@ class App extends React.Component{
               }
             ],
             link: [null]
-          },
+          },*/
           {
             id: 3,
             type: "mail",
@@ -84,12 +84,74 @@ class App extends React.Component{
                 command_call: "Подробнее"
               }
             ],
-            link: [null]
+            link: []
+          },
+          {
+            id: 5,
+            type: "message",
+            call: [
+              {
+              id: 8,
+              command_call: "/whatsup"
+              },
+              {
+                id: 9,
+                command_call: "Что нового?"
+              }
+            ],
+            link: []
+          },
+          {
+            id: 6,
+            type: "message",
+            call: [
+              {
+              id: 8,
+              command_call: "/whatsup"
+              },
+              {
+                id: 9,
+                command_call: "Что нового?"
+              }
+            ],
+            link: []
+          },
+          {
+            id: 7,
+            type: "message",
+            call: [
+              {
+              id: 8,
+              command_call: "/whatsup"
+              },
+              {
+                id: 9,
+                command_call: "Что нового?"
+              }
+            ],
+            link: []
+          },
+          {
+            id: 8,
+            type: "message",
+            call: [
+              {
+              id: 8,
+              command_call: "/whatsup"
+              },
+              {
+                id: 9,
+                command_call: "Что нового?"
+              }
+            ],
+            link: []
           }
+          
         ],
         mail_commands: [
           {
             id: 3,
+            name: "Защита проектов",
             date: "2023-05-02 15:00",
             message: "Сегодня в Технопарке ИрНИТУ проходит защита проектов Академии IT 2-го потока",
             media: [
@@ -114,20 +176,44 @@ class App extends React.Component{
             id: 1,
             name: "Дела",
             message: "Да вот, защищаем проект. Пол года то... Пол года сё... Вот и готово)",
-            media: [null]
+            media: []
           },
           {
             id: 4,
             name: "Подробности о мероприятии",
             message: "Да вот, защищают проекты будущие специалисты IT сферы компании En+. Вон как их много...",
-            media: [null]
-          }],
+            media: []
+          },
+          {
+            id: 5,
+            name: "Дела",
+            message: "Да вот, защищаем проект. Пол года то... Пол года сё... Вот и готово)",
+            media: []
+          },
+          {
+            id: 6,
+            name: "Дела",
+            message: "Да вот, защищаем проект. Пол года то... Пол года сё... Вот и готово)",
+            media: []
+          },
+          {
+            id: 7,
+            name: "Дела",
+            message: "Да вот, защищаем проект. Пол года то... Пол года сё... Вот и готово)",
+            media: []
+          },
+          {
+            id: 8,
+            name: "Дела",
+            message: "Да вот, защищаем проект. Пол года то... Пол года сё... Вот и готово)",
+            media: []
+          }],/*
         communication_commands: [
           {
-            id: "2",
+            id: 2,
             name: "Связь с нами",
             user: ["@Antmolch", "@hzxto"]
-          }],
+          }],*/
         chats: [
           {
             id: 0,
@@ -159,7 +245,8 @@ class App extends React.Component{
               id: 1,
               name: "@hzxto",
             }]
-        }]
+        }],
+      active_func_button: "none"
     }
     this.onChangeBot = this.onChangeBot.bind(this);
     this.onChangeStatus = this.onChangeStatus.bind(this);
@@ -188,7 +275,6 @@ class App extends React.Component{
       newBots = newBots.filter(bot => bot)
     else
       newBots = [null];
-    console.log(newBots);
     //this.bots = this.bots.filter((bot) => bot.id !== id);
     this.setState({ 
       status: "bot-list-field",
@@ -197,19 +283,41 @@ class App extends React.Component{
     });
   }
 
+  onChangeButton = (status) => {
+    this.setState({
+      active_func_button: status
+    });
+  }
+
+  ChangeBot = (bot) => {
+    console.log(bot)
+    this.setState({
+      bot: bot
+    })
+  }
+
   render(){
+    console.log("render")
+    console.log(this.state.status)
+    console.log(this.state.active_func_button)
     if (this.state.status === "constructor")
       return(
         <div className="bot-constructor">
-          <FunctionsBlock />
-          <Constructor bot={this.state.bots[this.state.bots.findIndex(x => x.id === this.state.id)]}/>
+          <FunctionsBlock onChangeButton={this.onChangeButton} />
+          <Constructor 
+            onChangeBot={this.ChangeBot} 
+            bot={this.state.bots[this.state.bots.findIndex(x => x.id === this.state.id)]} 
+            active_button={this.state.active_func_button}/>
         </div>
       )
     else
       return(
         <div className="bot-list-field">
-        {console.log(this.state.status)}
-          <BotList onDeleteBot={this.onDeleteBot} onChangeStatus={this.onChangeStatus} onClickBot={this.onChangeBot} bots={this.state.bots}/>
+          <BotList 
+            onDeleteBot={this.onDeleteBot} 
+            onChangeStatus={this.onChangeStatus} 
+            onClickBot={this.onChangeBot} 
+            bots={this.state.bots}/>
         </div> 
       )
   }

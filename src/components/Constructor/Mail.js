@@ -1,28 +1,21 @@
-import React, {useState} from 'react';
+import React from 'react';
 import plusIcon from '../img/plus-svg.svg'
 import exitIcon from '../img/exit.svg'
-import '../css/message.css'
-import Communication from './Communication'
-import Modal from '../Modal/Modal';
+import Message from './Message'
 
-export function Message(props){
+export function Mail(props){
     var bot = props.bot;
-    const start_block = props.start_block;
     const command_id = props.id;
-    const message_index = bot.message_commands.findIndex(x => x.id === command_id);
+    const message_index = bot.mail_commands.findIndex(x => x.id === command_id);
     const command_index = bot.commands.findIndex(x => x.id === command_id);
     const last_id = bot.commands[bot.commands.length - 1].id;
     const active_button = props.active_button;
-
-    const [modalActive, setModalActive] = useState(false);
     
     const onChange = (bot) => {
-        if(start_block)
-            props.onChangeBot(bot);
-        else
-            props.onChange(bot)
+        props.onChangeBot(bot);
     }
 
+    
     const addBlock = () => {
         console.log(active_button)
         if (active_button === "none")
@@ -34,14 +27,14 @@ export function Message(props){
             bot.commands.push({
                 id: last_id + 1,
                 type: "message",
-                call: [],
-                link: []
+                call: [null],
+                link: [null]
             });
             bot.message_commands.push({
                 id: last_id + 1,
                 name: "Без имени",
                 message: "",
-                media: []
+                media: [null]
             })
             console.log("работаем")
             onChange(bot);
@@ -49,6 +42,7 @@ export function Message(props){
         
     }
 
+    
     const deleteBlock = (cmd_id) => {
         if (bot.commands[bot.commands.findIndex(x => x.id === cmd_id)].link[0] !== null){
             //удаление блоков по ссылкам
@@ -71,29 +65,29 @@ export function Message(props){
         deleteBlock(command_id);
         onChange(bot);
     }
-
+    
     return(
         <div className='block'>
-            <div className="message-block" onClick={() => setModalActive(true)}>
-                <div className="message-field">
-                    <div>
-                        <p className='text-5'>{bot.message_commands[message_index].name}</p>
-                        <div onClick={e => e.stopPropagation()}><a className='delete-block-button' href='#' onClick={() => onDeleteBlock()}><img src={exitIcon}/></a></div>
-                    </div>
-                    
-                    <div className='message-text'><p className='text-6-gray'>{bot.message_commands[message_index].message !== "" ? bot.message_commands[message_index].message : "Пустой блок"}</p></div>
+        <div className="message-block">
+            <div className="message-field">
+                <div>
+                    <p className='text-5'>{bot.mail_commands[message_index].name}</p>
+                    <a className='delete-block-button' href='#' onClick={() => onDeleteBlock()}><img src={exitIcon}/></a>
                 </div>
-                <button onClick={() => addBlock()} className="add-message-button"><img src={plusIcon} alt="Добавить"/></button>
+                <div className='message-text'><p className='text-6-gray'>{bot.mail_commands[message_index].message !== "" ? bot.mail_commands[message_index].message : "Пустой блок"}</p></div>
             </div>
+            <button onClick={() => addBlock()} className="add-message-button"><img src={plusIcon} alt="Добавить"/></button>
+        </div>
             <div className='inline-bot-block'>
                 {bot.commands[command_index].link.map((id) => (
+                        id !== null &&
                         bot.commands[bot.commands.findIndex(x => x.id === id)].type === "message" &&
                             <div key={id} className="bot-block">
                                 <Message 
-                                    onChange={onChange} 
+                                    onChangeBot={onChange} 
                                     bot={bot} 
                                     id={id} 
-                                    start_block={false} 
+                                    start_block={true} 
                                     active_button={props.active_button}
                                     prev_id={command_id}/>
                             </div>
@@ -108,13 +102,8 @@ export function Message(props){
                             </div>
                     ))}*/}
             </div>
-            <Modal 
-                active={modalActive} 
-                setActive={setModalActive}>
-
-            </Modal>
         </div>
     );
 }
 
-export default Message
+export default Mail

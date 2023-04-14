@@ -11,11 +11,12 @@ class FunctionsBlock extends React.Component{
     }
 
     onClickButton(button){
-        this.state.activeButton === button ? this.setState({ activeButton: "none" }) : this.setState({ activeButton: button})
+        this.state.activeButton === button ? this.setState({ activeButton: "none" }) : this.setState({ activeButton: button});
+        this.props.onChangeButton(this.state.activeButton === button ? "none" : button);
+        
     }
 
     render(){
-        console.log(this.state.activeButton)
         return(
             <div className="function-block">
                 <div>
