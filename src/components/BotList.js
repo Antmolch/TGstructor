@@ -6,6 +6,9 @@ import plusIcon from './img/plus-svg.svg'
 class BotList extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            bot_name: ''
+        }
         this.onClickBot = this.props.onClickBot.bind(this);
         
     }
@@ -20,6 +23,16 @@ class BotList extends React.Component{
         this.props.onDeleteBot(id);
     }
 
+    onCreateBot = () => {
+
+    }
+
+    onChangeNewBotName = (event) => {
+        this.setState({
+            bot_name: event.target.value
+        })
+    }
+
     
     render(){
         if (this.props.bots.length > 0)
@@ -28,10 +41,10 @@ class BotList extends React.Component{
                     <div className='header-bot-list'>
                         <p className='text-2'>Ваши чат-боты</p>
                         <div className='add-bot-field'>
-                            <input className='text-5' type='text' placeholder='Введите название чат-бота'/>
-                            <button>
+                            <input className='text-3' type='text' placeholder='Введите название чат-бота' value={this.state.bot_name} onChange={this.onChangeNewBotName}/>
+                            <button onClick={this.onCreateBot()}>
                                 <img src={plusIcon} alt='Действия'/>
-                                <p className="text-5">Создать бота</p>
+                                <p className="text-3">Создать бота</p>
                             </button>
                         </div>
                     </div>
@@ -46,10 +59,10 @@ class BotList extends React.Component{
                     <div className='header-bot-list'>
                         <p className='text-2'>Ваши чат-боты</p>
                         <div className='add-bot-field'>
-                            <input className='text-5' type='text' placeholder='Введите название чат-бота'/>
+                            <input className='text-3' type='text' placeholder='Введите название чат-бота'/>
                             <button>
                                 <img src={plusIcon} alt='Действия'/>
-                                <p className="text-5">Создать бота</p>
+                                <p className="text-3">Создать бота</p>
                             </button>
                         </div>
                     </div>

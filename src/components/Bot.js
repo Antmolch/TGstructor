@@ -15,21 +15,21 @@ export function Bot(props){
         <div className="bot">
             <a className="name-bot" href="#" onClick={() => props.onClickBot(bot.id)}>
                 <div>
-                    <p className="text-4">{bot.name}</p>
-                    <p className="text-5">{bot.unique_name}</p>
+                    <p className="text-3">{bot.name}</p>
+                    <p className="text-4">{bot.unique_name}</p>
                 </div>
             </a>
             
             <div className="folowers-bot">
-                <p className="text-4">{bot.chats.length}</p>
-                <p className="text-5">Подписчики</p>
+                <p className="text-3">{bot.chats.length}</p>
+                <p className="text-4">Подписчики</p>
             </div>
-            <div className='status-bot'><p className="text-4" id="bot-status">{statusBot === false ? "Остановлен" : "Подключён"}</p></div>
+            <div className='status-bot'><p className="text-3" id="bot-status">{statusBot === false ? "Остановлен" : "Подключён"}</p></div>
             <button className="menu-trigger" onClick={() => setIsActive(!isActive)}>
                 <img src={ThreeDots}/>
             </button>
             {isActive && <nav className={`menu ${isActive ? "active" : "inactive"}`}>
-                <ul className="text-5">
+                <ul className="text-4">
                     <li>
                     <a href="#" onClick={() => props.onClickBot(bot.id)}>Изменить</a>
                     </li>

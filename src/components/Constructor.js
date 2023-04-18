@@ -55,7 +55,7 @@ FindStartCommands(){
         return(
             <div className="constructor-block">
                 <div className='start-block'>
-                    <p className='text-5'>Старт</p>
+                    <p className='text-4'>Старт</p>
                 </div>
                 {this.state.start_commands.map((cmd) => (
                     this.state.bot.commands[this.state.bot.commands.findIndex(x => x.id === cmd.id)].type === "message" &&

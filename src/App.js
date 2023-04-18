@@ -4,12 +4,17 @@ import './components/css/style.css'
 import FunctionsBlock from './components/FunctionsBlock'
 import Constructor from './components/Constructor'
 import BotList from './components/BotList'
+import axios from 'axios'
+import StartPage from './components/StartPage';
+import Header from './components/Header'
+import Settings from './components/Settings';
+
 
 class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      status: "bot-list-field",
+      status: "start-page",
       id: "",
       bots: [
         {
@@ -68,7 +73,7 @@ class App extends React.Component{
           {
             id: 3,
             type: "mail",
-            call: [null],
+            call: [],
             link: [4]
           },
           {
@@ -246,14 +251,17 @@ class App extends React.Component{
               name: "@hzxto",
             }]
         }],
-      active_func_button: "none"
+      active_func_button: "none",
+      user: {
+        name: '',
+        email: '',
+        token: ''
+      }
     }
     this.onChangeBot = this.onChangeBot.bind(this);
     this.onChangeStatus = this.onChangeStatus.bind(this);
     this.onDeleteBot = this.onDeleteBot.bind(this);
   }
-
-  
 
   onChangeBot(id){
     this.setState({ 
@@ -277,7 +285,7 @@ class App extends React.Component{
       newBots = [null];
     //this.bots = this.bots.filter((bot) => bot.id !== id);
     this.setState({ 
-      status: "bot-list-field",
+      status: "bot-list",
       id: "",
       bots: [...newBots]
     });
@@ -289,6 +297,34 @@ class App extends React.Component{
     });
   }
 
+  userExit = () => {
+    this.setState({
+      status: "start-page",
+      user: {
+        name: '',
+        email: '',
+        token: ''
+      }
+    })
+  }
+
+  userSettings = () => {
+    this.setState({
+      status: "user-settings"
+    })
+  }
+  
+  userAuthorization = (name, email, token) => {
+    this.setState({
+      status: "bot-list",
+      user: {
+        name: name,
+        email: email,
+        token: token
+      }
+    })
+  }
+
   ChangeBot = (bot) => {
     console.log(bot)
     this.setState({
@@ -296,30 +332,76 @@ class App extends React.Component{
     })
   }
 
+  ChangePage = (page) => {
+    this.setState({
+      status: page
+    })
+  }
+
   render(){
     console.log("render")
     console.log(this.state.status)
     console.log(this.state.active_func_button)
-    if (this.state.status === "constructor")
+    console.log(this.state.user.token)
+    if (this.state.status === "start-page"){
       return(
-        <div className="bot-constructor">
-          <FunctionsBlock onChangeButton={this.onChangeButton} />
-          <Constructor 
-            onChangeBot={this.ChangeBot} 
-            bot={this.state.bots[this.state.bots.findIndex(x => x.id === this.state.id)]} 
-            active_button={this.state.active_func_button}/>
+        <div className='app'>
+          <StartPage userAuthorization={this.userAuthorization} />
         </div>
-      )
-    else
+      );
+    }else if (this.state.status === "constructor")
       return(
-        <div className="bot-list-field">
-          <BotList 
-            onDeleteBot={this.onDeleteBot} 
-            onChangeStatus={this.onChangeStatus} 
-            onClickBot={this.onChangeBot} 
-            bots={this.state.bots}/>
-        </div> 
+        <div className='app'>
+          <Header 
+            user={this.state.user} 
+            page={this.state.status}
+            onExit={this.userExit}
+            onUserSettings={this.userSettings}
+            onChangePage={this.ChangePage}
+            />
+          <div className="bot-constructor">
+        
+            <FunctionsBlock onChangeButton={this.onChangeButton} />
+            <Constructor 
+              onChangeBot={this.ChangeBot} 
+              bot={this.state.bots[this.state.bots.findIndex(x => x.id === this.state.id)]} 
+              active_button={this.state.active_func_button}/>
+          </div>
+        </div>
+        
       )
+    else if (this.state.status === "bot-list")
+      return(
+        <div className='app'>
+          <Header 
+            page={this.state.status}
+            user={this.state.user}
+            onExit={this.userExit}
+            onUserSettings={this.userSettings}
+            />
+          <div className="bot-list-field">
+            <BotList 
+              onDeleteBot={this.onDeleteBot} 
+              onChangeStatus={this.onChangeStatus} 
+              onClickBot={this.onChangeBot} 
+              bots={this.state.bots}/>
+          </div> 
+        </div>
+        
+      )
+    else if (this.state.status === "user-settings")
+        return(
+          <div className='app'>
+            <Header 
+              page={this.state.status}
+              user={this.state.user}
+              onExit={this.userExit}
+              onUserSettings={this.userSettings}
+              onChangePage={this.ChangePage}
+              />
+            <Settings/>
+          </div>
+        )
   }
 }
 

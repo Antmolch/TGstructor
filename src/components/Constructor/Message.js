@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import plusIcon from '../img/plus-svg.svg'
+import plusBlackIcon from '../img/plus-svg-black.svg'
 import exitIcon from '../img/exit.svg'
 import '../css/message.css'
 import Communication from './Communication'
 import Modal from '../Modal/Modal';
+
 
 export function Message(props){
     var bot = props.bot;
@@ -13,9 +15,30 @@ export function Message(props){
     const command_index = bot.commands.findIndex(x => x.id === command_id);
     const last_id = bot.commands[bot.commands.length - 1].id;
     const active_button = props.active_button;
+    
 
     const [modalActive, setModalActive] = useState(false);
     
+    const FindCallCommand = (cmd_index) => {
+        let calls = [];
+        bot.commands[cmd_index].call.map((call) => {
+            calls.push(call.command_call);
+        })
+        return calls;
+    }
+
+    const FindMediaCommand = (msg_index) => {
+        let medias = [];
+        bot.message_commands[msg_index].media.map((media) =>{
+            medias.push(media.file);
+        })
+        return medias;
+    }
+    const [name, setName] = useState(bot.message_commands[message_index].name);
+    const [message, setMessage] = useState(bot.message_commands[message_index].message);
+    const [call_commands, setCalls] = useState(FindCallCommand(command_index));
+    const [media, setMedia] = useState(FindMediaCommand(message_index));
+
     const onChange = (bot) => {
         if(start_block)
             props.onChangeBot(bot);
@@ -77,13 +100,13 @@ export function Message(props){
             <div className="message-block" onClick={() => setModalActive(true)}>
                 <div className="message-field">
                     <div>
-                        <p className='text-5'>{bot.message_commands[message_index].name}</p>
+                        <p className='text-4'>{bot.message_commands[message_index].name}</p>
                         <div onClick={e => e.stopPropagation()}><a className='delete-block-button' href='#' onClick={() => onDeleteBlock()}><img src={exitIcon}/></a></div>
                     </div>
                     
-                    <div className='message-text'><p className='text-6-gray'>{bot.message_commands[message_index].message !== "" ? bot.message_commands[message_index].message : "Пустой блок"}</p></div>
+                    <div className='message-text'><p className='text-5-gray'>{bot.message_commands[message_index].message !== "" ? bot.message_commands[message_index].message : "Пустой блок"}</p></div>
                 </div>
-                <button onClick={() => addBlock()} className="add-message-button"><img src={plusIcon} alt="Добавить"/></button>
+                <button onClick={e => e.stopPropagation()} className="add-message-button"><img src={plusIcon} alt="Добавить" onClick={() => addBlock()}/></button>
             </div>
             <div className='inline-bot-block'>
                 {bot.commands[command_index].link.map((id) => (
@@ -111,7 +134,64 @@ export function Message(props){
             <Modal 
                 active={modalActive} 
                 setActive={setModalActive}>
-
+                <div className='modal-head'>
+                    <p className='text-2'>Сообщение</p> 
+                    <a href='#' onClick={() => {
+                        setName(bot.message_commands[message_index].name);
+                        setMessage(bot.message_commands[message_index].message);
+                        setCalls(FindCallCommand(command_index));
+                        setMedia(FindMediaCommand(message_index));
+                        setModalActive(false);
+                    }}><img src={exitIcon} alt='Закрыть'/></a>
+                </div>
+                <hr/>
+                <form className='modal-form text-3'>
+                    <label htmlFor='name'>Название команды</label>
+                    <input 
+                        className='text-4' 
+                        type='text' 
+                        id='name' 
+                        placeholder='Введите название команды' 
+                        onChange={e => {setName(e.target.value)}}
+                        value={name}
+                        />
+                    <label htmlFor='message'>Сообщение</label>
+                    <textarea 
+                        className='message-area text-4' 
+                        type='text' 
+                        id='message' 
+                        placeholder='Введите сообщение' 
+                        onChange={e => setMessage(e.target.value)}
+                        value={message}
+                        />
+                    
+                    <label htmlFor='call'>Команды вызова</label>
+                        {call_commands.map((call) => (
+                            <div className='call-commands'>
+                                    <input 
+                                        className='text-4' 
+                                        type='text' 
+                                        value={call}/>
+                                <div className='delete-call'>
+                                    <img src={exitIcon} alt='Удалить'/>
+                                </div>
+                            </div>
+                        ))}
+                    <div className='add-call-commands text-4'>
+                        <input 
+                            type='text' 
+                            id='call' 
+                            placeholder='Введите команду вызова'></input>
+                        <div className='add-call'>
+                            <img src={plusBlackIcon} alt='Добавить'/>
+                        </div>
+                    </div>
+                    
+                    <input 
+                        type='file' 
+                        accept='image/*, video/*'></input>
+                    <button /*onClick={() => changeData()}*/>Сохранить</button>
+                </form>
             </Modal>
         </div>
     );
