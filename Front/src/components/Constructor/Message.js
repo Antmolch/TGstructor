@@ -95,8 +95,15 @@ export function Message(props){
         onChange(bot);
     }
 
+    const onChangeCall = (call, event) => {
+        let calls = call_commands;
+        calls[calls.findIndex(x => x === call)] = event.target.value;
+        setCalls(calls);
+    }
+
     return(
         <div className='block'>
+            {console.log(call_commands)}
             <div className="message-block" onClick={() => setModalActive(true)}>
                 <div className="message-field">
                     <div>
@@ -171,7 +178,9 @@ export function Message(props){
                                     <input 
                                         className='text-4' 
                                         type='text' 
-                                        value={call}/>
+                                        value={call}
+                                        onChange={e => onChangeCall(call, e)}
+                                        />
                                 <div className='delete-call'>
                                     <img src={exitIcon} alt='Удалить'/>
                                 </div>

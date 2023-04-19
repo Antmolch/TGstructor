@@ -8,6 +8,7 @@ import axios from 'axios'
 import StartPage from './components/StartPage';
 import Header from './components/Header'
 import Settings from './components/Settings';
+import StepsToConnect from './components/StepsToConnect';
 
 
 class App extends React.Component{
@@ -256,7 +257,8 @@ class App extends React.Component{
         name: '',
         email: '',
         token: ''
-      }
+      },
+      bot_name: ''
     }
     this.onChangeBot = this.onChangeBot.bind(this);
     this.onChangeStatus = this.onChangeStatus.bind(this);
@@ -338,6 +340,13 @@ class App extends React.Component{
     })
   }
 
+  onCreateBot = (bot_name) => {
+    this.setState({
+      status: 'create-bot',
+      bot_name: bot_name
+    })
+  }
+
   render(){
     console.log("render")
     console.log(this.state.status)
@@ -355,8 +364,6 @@ class App extends React.Component{
           <Header 
             user={this.state.user} 
             page={this.state.status}
-            onExit={this.userExit}
-            onUserSettings={this.userSettings}
             onChangePage={this.ChangePage}
             />
           <div className="bot-constructor">
@@ -384,6 +391,7 @@ class App extends React.Component{
               onDeleteBot={this.onDeleteBot} 
               onChangeStatus={this.onChangeStatus} 
               onClickBot={this.onChangeBot} 
+              onCreateBot={this.onCreateBot}
               bots={this.state.bots}/>
           </div> 
         </div>
@@ -402,6 +410,17 @@ class App extends React.Component{
             <Settings/>
           </div>
         )
+      else if (this.state.status === "create-bot")
+          return(
+            <div className='app'>
+            <Header 
+              page={this.state.status}
+              user={this.state.user}
+              onChangePage={this.ChangePage}
+              />
+            <StepsToConnect/>
+          </div>
+          )
   }
 }
 

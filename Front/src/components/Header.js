@@ -47,27 +47,6 @@ class Header extends Component {
             <img className='prev-page' src={arrowIcon} onClick={() => this.props.onChangePage('bot-list')}/>
             <p className='text-2-gray'>Конструктор</p>
           </div>
-          <div className='button-container'>{/* контейнер с элементами в правой части шапки */}
-            <img src={userIcon} className='userIcon'/>
-            <p className='userName'>{this.props.user.email}</p>
-            <button className='buttonList' onClick={this.toggleDropdown}>
-              <img src={menuIcon} />
-            </button>         
-            {this.state.isOpen && (
-              <div className='dropdown-container'>
-                <ul>
-                  <li>
-                      <a href="#" onClick={this.props.onUserSettings()}>Настройки</a>
-                  </li>
-                  <li>
-                      <a href='#' onClick={() => this.props.onExit()}>Выход</a>
-                  </li>
-                  
-                </ul>
-              </div>
-            )}
-          
-          </div>
         </header>
       );
     }else if (this.props.page === "bot-list"){
@@ -105,26 +84,15 @@ class Header extends Component {
           <img className='prev-page' src={arrowIcon} onClick={() => this.props.onChangePage('bot-list')}/>
           <p className='text-2-gray'>Настройка аккаунта</p>
         </div>
-        <div className='button-container'>{/* контейнер с элементами в правой части шапки */}
-          <img src={userIcon} className='userIcon'/>
-          <p className='userName'>{this.props.user.email}</p>
-          <button className='buttonList' onClick={this.toggleDropdown}>
-            <img src={menuIcon} />
-          </button>         
-          {this.state.isOpen && (
-            <div className='dropdown-container'>
-              <ul>
-                <li>
-                    <a href="#" onClick={() => this.props.onUserSettings()}>Настройки</a>
-                </li>
-                <li>
-                    <a href='#' onClick={() => this.props.onExit()}>Выход</a>
-                </li>
-                
-              </ul>
-            </div>
-          )}
-        
+      </header>
+      )
+    }else if (this.props.page === "create-bot") {
+      return(
+        <header className='header' style={{}}>
+        <div style={{display: 'flex', height: 'auto', width: 'auto'}}>
+          <img src={logo} className='logo'/>
+          <img className='prev-page' src={arrowIcon} onClick={() => this.props.onChangePage('bot-list')}/>
+          <p className='text-2-gray'>Создание бота</p>
         </div>
       </header>
       )
